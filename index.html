@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCRIPTS CH-HUB KEYS</title>
+    <style>
+        /* --- FONDO DINÁMICO --- */
+        body {
+            background: radial-gradient(circle at center, #1a0033 0%, #050505 100%);
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .main-container {
+            background: rgba(15, 15, 15, 0.95);
+            border: 3px solid #bc13fe; /* Morado Neón */
+            border-radius: 25px;
+            padding: 45px;
+            max-width: 550px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(188, 19, 254, 0.5), inset 0 0 15px rgba(188, 19, 254, 0.2);
+            position: relative;
+        }
+
+        /* --- TÍTULO IMPACTANTE --- */
+        h1 {
+            color: #ff3131;
+            font-size: 2.8em;
+            margin: 0 0 30px 0;
+            text-transform: uppercase;
+            font-weight: 900;
+            text-shadow: 0 0 10px #ff3131, 0 0 25px #ff3131;
+            letter-spacing: 3px;
+        }
+
+        /* --- SECCIÓN DE ADQUISICIÓN --- */
+        .section-box {
+            background: linear-gradient(135deg, rgba(188, 19, 254, 0.1), rgba(0, 255, 136, 0.05));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            color: #00ff88;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: block;
+            text-transform: uppercase;
+        }
+
+        .method-item {
+            background: rgba(255, 255, 255, 0.05);
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            font-size: 1.1em;
+            border-left: 4px solid #bc13fe;
+            transition: 0.3s;
+        }
+        
+        .method-item:hover { transform: translateX(10px); background: rgba(255, 255, 255, 0.1); }
+
+        /* --- CAJA DE CONTACTO (COPIAR) --- */
+        .contact-card {
+            background: #0a0a0a;
+            border: 2px solid #00d4ff;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.2);
+        }
+
+        .contact-label {
+            color: #00d4ff;
+            font-size: 0.9em;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .copy-button {
+            background: linear-gradient(90deg, #00d4ff, #0055aa);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            transition: 0.4s;
+        }
+
+        .copy-button:hover {
+            filter: brightness(1.2);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        /* --- ADVERTENCIA --- */
+        .warning-tag {
+            color: #ffcc00;
+            background: rgba(255, 204, 0, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 0.9em;
+            margin-top: 25px;
+            border: 1px solid #ffcc00;
+        }
+
+        /* --- PIE DE PÁGINA --- */
+        .footer-status {
+            margin-top: 35px;
+            border-top: 1px solid #333;
+            padding-top: 20px;
+        }
+
+        .update-pill {
+            background: #bc13fe;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        /* --- NOTIFICACIÓN --- */
+        #toast {
+            visibility: hidden;
+            background: #00ff88;
+            color: #000;
+            padding: 15px 30px;
+            border-radius: 50px;
+            position: fixed;
+            top: 20px;
+            font-weight: bold;
+            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.3);
+            z-index: 100;
+        }
+        #toast.show { visibility: visible; animation: slideIn 0.5s forwards; }
+
+        @keyframes slideIn { from { top: -100px; } to { top: 20px; } }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <h1>SCRIPTS CH-HUB KEYS</h1>
+        
+        <div class="section-box">
+            <span class="section-title">📦 SCRIPT MM2 MÉTODO DE ADQUISICIÓN</span>
+            <div class="method-item">⚔️ Tradea con Codex Ezzz en MM2</div>
+            <div class="method-item">💎 100 Diamantes de Free Fire</div>
+        </div>
+
+        <div class="contact-card">
+            <span class="contact-label">Adquiere contactando a este usuario:</span>
+            <button class="copy-button" onclick="copyUser('softworks32')">
+                <span id="target">softworks32</span> 📋
+            </button>
+            <p style="color: #666; font-size: 0.8em; margin-top: 15px;">También para quejas y sugerencias 📩</p>
+        </div>
+
+        <div class="warning-tag">
+            ⚠️ SI ENVÍAS MENSAJE A CODEXX EZZ NO SERÁS RESPONDIDO
+        </div>
+
+        <div class="footer-status">
+            <span class="update-pill">ACTUALIZACIÓN CADA 15 DÍAS 🪐</span>
+        </div>
+    </div>
+
+    <div id="toast">Copiado con éxito ✅</div>
+
+    <script>
+        function copyUser(name) {
+            navigator.clipboard.writeText(name);
+            var t = document.getElementById("toast");
+            t.className = "show";
+            setTimeout(function(){ t.className = t.className.replace("show", ""); }, 3000);
+        }
+    </script>
+
+</body>
+</html>
