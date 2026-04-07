@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drip Client - Precios Más Bajos 🔥</title>
+    <title>Drip Client - Precios & Premium 🔥</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;900&display=swap');
 
         :root {
-            --primary: #a855f7; /* Púrpura brillante */
-            --secondary: #ec4899; /* Rosa neón */
-            --accent: #ff0033; /* Rojo vibrante para precios */
+            --primary: #a855f7;
+            --secondary: #ec4899;
+            --accent: #ff0033;
+            --gold: #ffd700;
             --bg-dark: #090511;
         }
 
@@ -26,7 +27,6 @@
             position: relative;
         }
 
-        /* Fondo Animado de Neón */
         body::before {
             content: '';
             position: fixed;
@@ -43,7 +43,6 @@
             100% { transform: translate(5%, 5%); }
         }
 
-        /* Partículas */
         .particle {
             position: fixed;
             background: var(--primary);
@@ -62,7 +61,6 @@
             100% { transform: translateY(-20vh) scale(1.2); opacity: 0; }
         }
 
-        /* Header Estilo Supreme */
         header {
             padding: 30px 15px;
             background: rgba(15, 7, 26, 0.85);
@@ -91,8 +89,7 @@
             text-shadow: 0 0 25px var(--primary);
         }
 
-        /* Grid de Precios */
-        .prices { 
+        .prices, .premium-grid { 
             display: flex; 
             flex-wrap: wrap; 
             justify-content: center; 
@@ -102,7 +99,6 @@
             margin: 0 auto; 
         }
 
-        /* Tarjetas con Brillo */
         .card {
             background: rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(12px);
@@ -125,54 +121,49 @@
         
         .old-price { 
             text-decoration: line-through; 
-            opacity: 0.6; 
-            font-size: 18px;
-            color: #cbd5e1;
+            opacity: 0.6; font-size: 18px; color: #cbd5e1;
         }
 
         .price {
-            font-size: 58px;
-            font-weight: 900;
-            color: var(--accent);
-            text-shadow: 0 0 15px rgba(255, 0, 51, 0.5);
-            margin: 10px 0;
+            font-size: 58px; font-weight: 900; color: var(--accent);
+            text-shadow: 0 0 15px rgba(255, 0, 51, 0.5); margin: 10px 0;
         }
 
-        /* Botón de Compra Reforzado */
+        .premium-title {
+            font-size: 45px; font-weight: 900; color: var(--gold);
+            margin: 60px 0 20px; text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            letter-spacing: 3px;
+        }
+
         .btn {
-            display: block;
-            margin: 20px auto 0;
-            padding: 18px;
+            display: block; margin: 20px auto 0; padding: 18px;
             background: linear-gradient(45deg, var(--primary), var(--secondary));
-            color: white;
-            font-size: 20px; font-weight: 800;
-            border-radius: 15px;
-            text-decoration: none;
-            box-shadow: 0 5px 20px rgba(168, 85, 247, 0.4);
-            transition: 0.3s;
-            cursor: pointer;
-            border: none;
-            width: 100%;
+            color: white; font-size: 20px; font-weight: 800; border-radius: 15px;
+            text-decoration: none; box-shadow: 0 5px 20px rgba(168, 85, 247, 0.4);
+            transition: 0.3s; cursor: pointer; border: none; width: 100%;
         }
 
-        .btn:hover {
-            filter: brightness(1.2);
-            transform: scale(1.05);
-            box-shadow: 0 0 30px var(--secondary);
+        .btn:hover { filter: brightness(1.2); transform: scale(1.05); box-shadow: 0 0 30px var(--secondary); }
+
+        .btn-premium {
+            background: linear-gradient(45deg, #b8860b, #ffd700);
+            color: #000;
         }
 
         footer {
-            padding: 50px 20px;
-            background: rgba(0,0,0,0.4);
-            margin-top: 40px;
-            color: #94a3b8;
-            line-height: 1.8;
+            padding: 50px 20px; background: rgba(0,0,0,0.4);
+            margin-top: 40px; color: #94a3b8; line-height: 1.8;
         }
 
         footer p span { color: #22c55e; font-weight: bold; }
     </style>
 </head>
 <body>
+
+    <audio id="bg-music" loop>
+        <source src="https://files.catbox.moe/aqih3a.m4a" type="audio/mp4">
+    </audio>
 
     <header>
         <div class="logo">🟣 DRIP CLIENT 🟣</div>
@@ -207,6 +198,34 @@
         </div>
     </section>
 
+    <h1 class="premium-title">PREMIUM 👑</h1>
+
+    <section class="premium-grid">
+        <div class="card">
+            <h2>WhatsApp Plus</h2>
+            <p style="color: #94a3b8; margin: 10px 0;">Privacidad Total</p>
+            <a href="https://whatsapp-plus.malavida.com/android/descargar" target="_blank" class="btn btn-premium">Descargar 🚀</a>
+        </div>
+
+        <div class="card">
+            <h2>Spotify Mod</h2>
+            <p style="color: #94a3b8; margin: 10px 0;">Premium Unlocked</p>
+            <a href="https://spotify.uptodown.com/android" target="_blank" class="btn btn-premium">Descargar 🚀</a>
+        </div>
+
+        <div class="card">
+            <h2>Próximamente</h2>
+            <p style="color: #94a3b8; margin: 10px 0;">Nueva App</p>
+            <a href="#" target="_blank" class="btn btn-premium">Descargar 🚀</a>
+        </div>
+
+        <div class="card">
+            <h2>Próximamente</h2>
+            <p style="color: #94a3b8; margin: 10px 0;">Nueva App</p>
+            <a href="#" target="_blank" class="btn btn-premium">Descargar 🚀</a>
+        </div>
+    </section>
+
     <footer>
         <p><span>✅</span> Entrega en menos de 5 minutos</p>
         <p><span>✅</span> Garantía de reemplazo si hay problema</p>
@@ -214,69 +233,45 @@
     </footer>
 
     <script>
-        // LÓGICA DE COPIADO Y REDIRECCIÓN (MANTENIDA)
-        function copiarAlPortapapeles(texto) {
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(texto).catch(() => {
-                    fallbackCopy(texto);
-                });
-            } else {
-                fallbackCopy(texto);
-            }
+        function startMusic() {
+            const m = document.getElementById('bg-music');
+            m.volume = 0.5; m.play();
+            window.removeEventListener('click', startMusic);
         }
-
-        function fallbackCopy(texto) {
-            const textarea = document.createElement("textarea");
-            textarea.value = texto;
-            textarea.style.position = "fixed";
-            textarea.style.left = "-9999px";
-            document.body.appendChild(textarea);
-            textarea.select();
-            try {
-                document.execCommand('copy');
-            } catch (err) {
-                console.log("Error al copiar");
-            }
-            document.body.removeChild(textarea);
-        }
+        window.addEventListener('click', startMusic);
 
         function comprar(paquete) {
             const mensaje = `Hola quiero adquirir key de drip cliente de ${paquete} 📦`;
-            
-            copiarAlPortapapeles(mensaje);
+            const textarea = document.createElement("textarea");
+            textarea.value = mensaje;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
 
-            // Abrir perfil de TikTok
             window.open("https://www.tiktok.com/@softworks32", "_blank");
-
             setTimeout(() => {
-                alert(`✅ MENSAJE COPIADO:\n"${mensaje}"\n\nSe abrió TikTok. Pega el mensaje en el chat para comprar.`);
+                alert(`✅ MENSAJE COPIADO:\n"${mensaje}"\n\nSe abrió TikTok. Pega el mensaje en el chat.`);
             }, 800);
         }
 
-        // SISTEMA DE PARTÍCULAS MEJORADO
         function createParticles() {
             const particleCount = 25;
             for (let i = 0; i < particleCount; i++) {
                 const p = document.createElement('div');
                 p.classList.add('particle');
-                
                 const size = Math.random() * 6 + 3;
                 p.style.width = `${size}px`;
                 p.style.height = `${size}px`;
                 p.style.left = `${Math.random() * 100}vw`;
                 p.style.bottom = `-${Math.random() * 100}px`;
-                
-                // Variedad de colores entre púrpura y rosa
                 const colors = ['#a855f7', '#ec4899', '#8b5cf6'];
                 p.style.background = colors[Math.floor(Math.random() * colors.length)];
-                
                 p.style.animationDuration = `${Math.random() * 10 + 10}s`;
                 p.style.animationDelay = `-${Math.random() * 20}s`;
-                
                 document.body.appendChild(p);
             }
         }
-
         window.onload = createParticles;
     </script>
 </body>
