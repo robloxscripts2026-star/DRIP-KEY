@@ -89,32 +89,29 @@
         }
 
         /* Animaciones para el intro */
-        @keyframes typingLine1 { to { width: 100%; } }
-        @keyframes typingLine2 { to { width: 100%; } }
-
-        @keyframes text3D {
-            0% { transform: rotateX(90deg) scale(0.5); opacity: 0; }
-            10% { transform: rotateX(0deg) scale(1); opacity: 1; }
-            80% { transform: rotateX(0deg) scale(1) translateZ(0); opacity: 1; }
-            90% { transform: rotateX(-20deg) scale(2.5) translateZ(100px); opacity: 0.5; }
-            100% { transform: rotateX(-20deg) scale(3) translateZ(200px); opacity: 0; visibility: hidden;}
-        }
-
-        @keyframes glowOrange {
-            from { text-shadow: 0 0 10px var(--neon-orange-glow), 0 0 20px var(--neon-orange-glow); }
-            to { text-shadow: 0 0 20px var(--neon-orange-glow), 0 0 40px var(--neon-orange-glow), 0 0 60px var(--neon-orange-glow); }
-        }
-
-        @keyframes glowPurple {
-            from { text-shadow: 0 0 10px rgba(255,255,255,0.5); color: #fff; }
-            to { text-shadow: 0 0 20px var(--neon-purple-glow), 0 0 40px var(--neon-purple-glow); color: var(--neon-purple); }
-        }
-
-        @keyframes fadeOutIntro {
-            0% { opacity: 1; }
-            100% { opacity: 0; visibility: hidden; }
-        }
-
+                @keyframes text3D {
+            0% { 
+                transform: translateZ(-500px) rotateX(90deg) scale(0.5); 
+                opacity: 0; 
+            }
+            15% { 
+                transform: translateZ(0) rotateX(0deg) scale(1); 
+                opacity: 1; 
+            }
+            80% { 
+                transform: translateZ(0) rotateX(0deg) scale(1.05); 
+                opacity: 1; 
+            }
+            100% { 
+                /* Esta es la parte clave para que no haya lag */
+                transform: translateZ(300px) scale(4); 
+                opacity: 0; 
+                filter: blur(15px); 
+                visibility: hidden;
+            }
+                }
+        
+        
         /* --- PÁGINA PRINCIPAL --- */
         #main-content {
             opacity: 0;
