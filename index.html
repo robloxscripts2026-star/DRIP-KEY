@@ -422,7 +422,62 @@
             </div>
         </div>
     </div>
+<div class="section-cuba" style="margin-top: 80px; padding: 40px; border-top: 3px solid #00ccff; text-align: center;">
+    <h2 style="font-size: 3.5rem; color: #00ccff; text-shadow: 0 0 20px #00ccff; margin-bottom: 40px;">CUBA MODS 🔵</h2>
+    
+    <div class="pricing-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
+        <div class="card sky-blue" style="border: 2px solid #00ccff; padding: 25px; border-radius: 20px; background: rgba(0, 204, 255, 0.05);">
+            <h2 style="color: #00ccff;">3 DÍAS</h2>
+            <div style="font-size: 2.5rem; color: #00ccff; font-weight: bold;">$ 70 MXN</div>
+            <ul style="list-style: none; text-align: left; padding: 20px 0; color: #ccc;">
+                <li>🟢 Acceso total</li>
+                <li>🟢 Soporte rápido</li>
+                <li>🟢 Entrega inmediata</li>
+            </ul>
+            <button onclick="comprarCuba('3 dias')" style="background: #00ccff; color: white; border: none; padding: 15px; border-radius: 50px; font-weight: bold; cursor: pointer; width: 100%;">COMPRAR 💳</button>
+        </div>
 
+        <div class="card sky-blue" style="border: 2px solid #00ccff; padding: 25px; border-radius: 20px; background: rgba(0, 204, 255, 0.05);">
+            <h2 style="color: #00ccff;">7 DÍAS</h2>
+            <div style="font-size: 2.5rem; color: #00ccff; font-weight: bold;">$ 160 MXN</div>
+            <ul style="list-style: none; text-align: left; padding: 20px 0; color: #ccc;">
+                <li>🟢 Soporte prioritario</li>
+                <li>🟢 Actualizaciones</li>
+                <li>🟢 Entrega inmediata</li>
+            </ul>
+            <button onclick="comprarCuba('7 días')" style="background: #00ccff; color: white; border: none; padding: 15px; border-radius: 50px; font-weight: bold; cursor: pointer; width: 100%;">COMPRAR 💳</button>
+        </div>
+
+        <div class="card sky-blue" style="border: 2px solid #00ccff; padding: 25px; border-radius: 20px; background: rgba(0, 204, 255, 0.05);">
+            <h2 style="color: #00ccff;">30 DÍAS</h2>
+            <div style="font-size: 2.5rem; color: #00ccff; font-weight: bold;">$ 350 MXN</div>
+            <ul style="list-style: none; text-align: left; padding: 20px 0; color: #ccc;">
+                <li>🟢 Acceso VIP completo</li>
+                <li>🟢 Soporte 24/7</li>
+                <li>🟢 Entrega inmediata</li>
+            </ul>
+            <button onclick="comprarCuba('Mes')" style="background: #00ccff; color: white; border: none; padding: 15px; border-radius: 50px; font-weight: bold; cursor: pointer; width: 100%;">COMPRAR 💳</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function comprarCuba(tiempo) {
+    const txt = `Hola, quiero adquirir cuba mods🔵de ${tiempo}`;
+    const tiktok = "https://tiktok.com/@softworks32";
+    
+    const tempInput = document.createElement("textarea");
+    tempInput.value = txt;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand("copy");
+    document.body.removeChild(tempInput);
+
+    alert("Copiado: " + txt);
+    window.open(tiktok, "_blank");
+}
+        </script>
+    
     <script>
         // Función para activar relámpagos aleatorios
         function triggerLightning() {
