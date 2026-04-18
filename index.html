@@ -10,53 +10,41 @@
         :root {
             --purple: #bc13fe; --orange: #ff6600; --blue: #00d2ff;
             --green: #00ff88; --gold: #ffcc00; --cyan: #00ccff;
-            --bg: #05000a; --neon-shadow: 0 0 15px rgba(188, 19, 254, 0.6);
+            --bg: #05000a;
         }
 
-        /* RESET & BASE */
         *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-        body { background:var(--bg); color:#fff; font-family:'Rajdhani',sans-serif; overflow-x:hidden; min-height: 100vh; }
+        body { background:var(--bg); color:#fff; font-family:'Rajdhani',sans-serif; overflow-x:hidden; }
 
         /* ═══════════════════════════════════
-           SISTEMA DE INTRO (ANTI-LAG)
+           INTRO ENGINE (ZERO LAG)
         ═══════════════════════════════════ */
         #intro {
             position:fixed; inset:0; z-index:99999; background:#000;
             display:flex; flex-direction:column; align-items:center; justify-content:center;
             overflow:hidden;
         }
-
-        #pCanvas { position:absolute; inset:0; z-index:0; opacity: 0.6; }
-
-        .scanline {
-            position: absolute; inset: 0; z-index: 2; pointer-events: none;
-            background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, .3) 50%);
-            background-size: 100% 4px;
-        }
-
+        #pCanvas { position:absolute; inset:0; z-index:0; opacity: 0.5; }
         .intro-inner {
             position:relative; z-index:3; text-align:center;
             will-change: transform, opacity; transform: translateZ(0);
             animation: introZoom 8.5s cubic-bezier(.25,.46,.45,.94) forwards;
         }
-
         @keyframes introZoom {
-            0%   { transform:scale(.4) translateY(60px); opacity:0; filter:blur(20px); }
+            0%   { transform:scale(.4) translateY(60px); opacity:0; filter:blur(15px); }
             15%  { transform:scale(1); opacity:1; filter:blur(0); }
             85%  { transform:scale(1.1); opacity:1; filter:blur(0); }
-            100% { transform:scale(15); opacity:0; filter:blur(50px); }
+            100% { transform:scale(15); opacity:0; filter:blur(40px); }
         }
-
-        .glitch-main {
-            font-family:'Orbitron',sans-serif; font-size: clamp(3.5rem, 12vw, 8rem);
+        .glitch-text {
+            font-family:'Orbitron',sans-serif; font-size: clamp(3rem, 10vw, 7rem);
             font-weight:900; color: var(--orange); letter-spacing: 15px;
-            text-transform:uppercase; text-shadow: 0 0 20px var(--orange), 0 0 40px rgba(255,102,0,0.5);
-            position: relative;
+            text-transform:uppercase; text-shadow: 0 0 20px var(--orange);
         }
-
-        /* BARRA DE CARGA OPTIMIZADA */
-        .loader-wrap { margin-top: 40px; width: 280px; position: relative; }
-        .loader-track { height: 4px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
+        .loader-bar {
+            width: 250px; height: 3px; background: rgba(255,255,255,0.1);
+            margin-top: 30px; border-radius: 10px; overflow: hidden;
+        }
         .loader-fill {
             height: 100%; width: 100%; background: linear-gradient(90deg, var(--purple), var(--cyan));
             clip-path: inset(0 100% 0 0); animation: loadFill 4s ease 3.8s forwards;
@@ -64,250 +52,204 @@
         @keyframes loadFill { to { clip-path: inset(0 0 0 0); } }
 
         /* ═══════════════════════════════════
-           FONDO DINÁMICO & LIGHTNING
+           ATMOSPHERE & BACKGROUND
         ═══════════════════════════════════ */
-        .grid-master {
+        .grid-bg {
             position:fixed; inset:0; z-index:-1;
-            background-image: linear-gradient(rgba(188,19,254,0.08) 1.5px, transparent 1.5px),
-                              linear-gradient(90deg, rgba(188,19,254,0.08) 1.5px, transparent 1.5px);
-            background-size: 50px 50px; transform: perspective(500px) rotateX(60deg);
-            transform-origin: center top; animation: gridMove 10s linear infinite;
+            background-image: linear-gradient(rgba(188,19,254,0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(188,19,254,0.05) 1px, transparent 1px);
+            background-size: 40px 40px; transform: perspective(500px) rotateX(60deg);
+            animation: gridMove 10s linear infinite;
         }
-        @keyframes gridMove { from { background-position: 0 0; } to { background-position: 0 50px; } }
-
+        @keyframes gridMove { from { background-position: 0 0; } to { background-position: 0 40px; } }
         #lightning { position: fixed; inset: 0; z-index: 9998; pointer-events: none; opacity: 0; }
-        .flash-effect { animation: lightningFlash 0.7s ease-out; }
-        @keyframes lightningFlash {
-            0% { background: rgba(255,255,255,0); opacity: 0; }
-            10% { background: rgba(255,255,255,0.2); opacity: 1; }
-            20% { background: rgba(188,19,254,0.1); opacity: 0.5; }
+        .flash { animation: flashAnim 0.7s ease-out; }
+        @keyframes flashAnim {
+            0% { background: rgba(255,255,255,0.15); opacity: 1; }
             100% { background: transparent; opacity: 0; }
         }
 
         /* ═══════════════════════════════════
-           CONTENIDO (ESTILO 700 LÍNEAS)
+           MAIN CONTENT
         ═══════════════════════════════════ */
-        #main-content { opacity: 0; visibility: hidden; padding-bottom: 120px; transition: opacity 1.5s ease 8s; }
-        .loaded #main-content { opacity: 1; visibility: visible; }
-
+        #main { opacity: 0; animation: fadeIn 1s ease 8s forwards; padding-bottom: 100px; }
+        @keyframes fadeIn { to { opacity: 1; } }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         
-        header { padding: 80px 0 40px; text-align: center; }
-        .hero-title { 
-            font-family: 'Orbitron', sans-serif; font-size: clamp(2.8rem, 8vw, 5rem);
-            text-shadow: 0 0 30px var(--purple); color: #fff;
+        header { padding: 80px 0; text-align: center; }
+        .title { font-family:'Orbitron',sans-serif; font-size: clamp(2.5rem, 8vw, 4.5rem); text-shadow: 0 0 25px var(--purple); }
+
+        .section-tag {
+            font-family: 'Orbitron', sans-serif; font-size: 1.8rem; text-align: center;
+            margin: 60px 0 30px; letter-spacing: 10px; text-transform: uppercase;
         }
 
-        .pricing-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px; margin-top: 50px;
-        }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
 
-        .glass-card {
-            background: rgba(10, 2, 20, 0.85); border: 1px solid rgba(188,19,254,0.3);
-            border-radius: 25px; padding: 45px 30px; text-align: center;
-            backdrop-filter: blur(15px); transition: 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-            position: relative; overflow: hidden;
+        .card {
+            background: rgba(10, 2, 20, 0.9); border: 2px solid; border-radius: 25px;
+            padding: 40px 25px; text-align: center; backdrop-filter: blur(10px);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative;
         }
-        .glass-card:hover { transform: translateY(-20px); border-color: var(--purple); box-shadow: 0 0 40px rgba(188,19,254,0.3); }
+        .card:hover { transform: translateY(-15px); box-shadow: 0 10px 40px rgba(188,19,254,0.3); }
 
-        .price-tag { font-family: 'Orbitron', sans-serif; font-size: 3rem; font-weight: 900; margin: 20px 0; }
+        .price { font-family: 'Orbitron', sans-serif; font-size: 2.8rem; margin: 20px 0; font-weight: 900; }
         
-        .btn-nexus {
-            width: 100%; padding: 18px; border-radius: 50px; border: none;
+        .buy-btn {
+            width: 100%; padding: 16px; border-radius: 50px; border: none;
             font-family: 'Orbitron', sans-serif; font-weight: 700; color: #fff;
-            cursor: pointer; text-transform: uppercase; letter-spacing: 2px;
-            background: linear-gradient(135deg, #7700cc, var(--purple));
-            box-shadow: 0 0 20px rgba(188,19,254,0.4); transition: 0.3s;
+            cursor: pointer; text-transform: uppercase; transition: 0.3s;
         }
-        .btn-nexus:hover { filter: brightness(1.2); transform: scale(1.03); }
 
-        /* CUBA MODS STYLE */
-        .sky-section { margin-top: 120px; border-top: 1px solid rgba(0,210,255,0.2); padding-top: 60px; }
-        .t-sky { border-color: var(--cyan); }
-        .t-sky .price-tag { color: var(--cyan); }
-        .btn-sky { background: linear-gradient(135deg, #0088cc, var(--cyan)); box-shadow: 0 0 20px rgba(0,204,255,0.4); }
+        /* CATEGORÍAS COLORES */
+        .c-purple { border-color: var(--purple); }
+        .c-purple .price { color: var(--purple); }
+        .c-purple .buy-btn { background: var(--purple); box-shadow: 0 0 15px var(--purple); }
 
-        /* NOTIFICATION */
+        .c-cyan { border-color: var(--cyan); }
+        .c-cyan .price { color: var(--cyan); }
+        .c-cyan .buy-btn { background: var(--cyan); box-shadow: 0 0 15px var(--cyan); }
+
+        .badge {
+            position: absolute; top: -12px; right: 20px; background: var(--orange);
+            color: #000; font-family: 'Orbitron', sans-serif; font-size: 0.7rem;
+            padding: 5px 15px; border-radius: 10px; font-weight: 900;
+        }
+
+        /* NOTIF & MODAL */
         #toast {
             position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%);
             background: var(--purple); padding: 15px 40px; border-radius: 50px;
-            font-family: 'Orbitron', sans-serif; z-index: 100000; transition: 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            font-family: 'Orbitron', sans-serif; z-index: 100000; transition: 0.5s;
         }
-        #toast.active { bottom: 40px; }
+        #toast.on { bottom: 40px; }
 
-        /* MODAL */
-        #purchase-modal {
+        #modal {
             display: none; position: fixed; inset: 0; z-index: 999998;
-            background: rgba(0,0,0,0.92); backdrop-filter: blur(10px);
-            align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.9); align-items: center; justify-content: center;
         }
-        #purchase-modal.open { display: flex; }
-        .modal-content {
-            background: #0d0018; border: 2px solid var(--purple);
-            padding: 50px; border-radius: 30px; text-align: center; max-width: 450px; width: 90%;
-            box-shadow: 0 0 100px rgba(188,19,254,0.2);
-        }
+        #modal.on { display: flex; }
+        .m-box { background: #0d0018; border: 2px solid var(--purple); padding: 45px; border-radius: 30px; text-align: center; width: 90%; max-width: 400px; }
     </style>
 </head>
-<body class="loading">
+<body>
 
     <div id="lightning"></div>
-    <div class="grid-master"></div>
-    <div id="toast">✅ MENSAJE COPIADO</div>
+    <div class="grid-bg"></div>
+    <div id="toast">✅ COPIADO</div>
 
     <div id="intro">
         <canvas id="pCanvas"></canvas>
-        <div class="scanline"></div>
         <div class="intro-inner">
-            <h1 class="glitch-main">NEXUS</h1>
-            <div class="loader-wrap">
-                <div class="loader-track"><div class="loader-fill"></div></div>
-                <p style="font-size: 0.7rem; letter-spacing: 5px; margin-top: 10px; color: #444;">SYNCING_SYSTEM...</p>
-            </div>
+            <h1 class="glitch-text">NEXUS</h1>
+            <div class="loader-bar"><div class="loader-fill"></div></div>
         </div>
     </div>
 
-    <div id="purchase-modal">
-        <div class="modal-content">
-            <h2 style="font-family:'Orbitron'; color:var(--purple); margin-bottom:15px;">⚡ ACCESO</h2>
-            <p id="selected-plan" style="font-size: 1.3rem; margin-bottom: 30px; color: #fff;"></p>
-            <button class="btn-nexus" onclick="confirmRedirect()">IR A TIKTOK 🚀</button>
-            <button onclick="closeModal()" style="background:transparent; color:#555; border:none; margin-top:20px; cursor:pointer;">CANCELAR</button>
+    <div id="modal">
+        <div class="m-box">
+            <h2 style="color:var(--purple); font-family:'Orbitron'">⚡ CONFIRMAR</h2>
+            <p id="mPlan" style="margin: 25px 0; font-size: 1.2rem;"></p>
+            <button class="buy-btn" onclick="goToTikTok()" style="background:var(--purple)">IR A TIKTOK 🚀</button>
+            <button onclick="closeM()" style="background:transparent; color:#555; border:none; margin-top:20px; cursor:pointer;">CANCELAR</button>
         </div>
     </div>
 
-    <div id="main-content">
+    <div id="main">
         <div class="container">
             <header>
-                <h1 class="hero-title">NEXUS <span style="color:var(--purple)">STORE</span></h1>
-                <p style="letter-spacing: 8px; color: #666; text-transform: uppercase;">Premium Digital Assets</p>
+                <h1 class="title">NEXUS <span style="color:var(--purple)">STORE</span> 💎</h1>
+                <p style="color:#555; letter-spacing:5px;">PREMIUM DIGITAL MODS</p>
             </header>
 
-            <div style="text-align:center; color:var(--purple); font-family:'Orbitron'; font-size:1.8rem; letter-spacing:10px;">DRIP CLIENTE 🟣</div>
-            <div class="pricing-grid">
-                <div class="glass-card">
-                    <h2 style="color:var(--purple)">1 MES</h2>
-                    <div class="price-tag">$18 USD</div>
-                    <ul style="list-style:none; color:#999; margin-bottom:30px; line-height:2;">
-                        <li>🟢 FULL ACCESS</li>
-                        <li>🟢 SUPPORT 24/7</li>
-                        <li>🟢 AUTO UPDATE</li>
-                    </ul>
-                    <button class="btn-nexus" onclick="handlePurchase('Drip Cliente 🟣','Quiero adquirir drip cliente🟣 :1 MES')">ADQUIRIR 💳</button>
+            <div class="section-tag" style="color:var(--purple)">DRIP CLIENTE 🟣</div>
+            <div class="grid">
+                <div class="card c-purple">
+                    <h2>1 DÍA</h2><div class="price">$2 USD</div>
+                    <button class="buy-btn" onclick="openM('Drip Cliente 🟣 · 1 DÍA','Quiero adquirir drip cliente🟣 :1 DÍA')">COMPRAR 💳</button>
+                </div>
+                <div class="card c-purple">
+                    <h2>7 DÍAS</h2><div class="price">$7 USD</div>
+                    <button class="buy-btn" onclick="openM('Drip Cliente 🟣 · 7 DÍAS','Quiero adquirir drip cliente🟣 :7 DÍAS')">COMPRAR 💳</button>
+                </div>
+                <div class="card c-purple">
+                    <div class="badge">POPULAR</div>
+                    <h2>15 DÍAS</h2><div class="price">$12 USD</div>
+                    <button class="buy-btn" onclick="openM('Drip Cliente 🟣 · 15 DÍAS','Quiero adquirir drip cliente🟣 :15 DÍAS')">COMPRAR 💳</button>
+                </div>
+                <div class="card c-purple">
+                    <h2>1 MES</h2><div class="price">$18 USD</div>
+                    <button class="buy-btn" onclick="openM('Drip Cliente 🟣 · 1 MES','Quiero adquirir drip cliente🟣 :1 MES')">COMPRAR 💳</button>
                 </div>
             </div>
 
-            <div class="sky-section">
-                <div style="text-align:center; color:var(--cyan); font-family:'Orbitron'; font-size:1.8rem; letter-spacing:10px; margin-bottom:40px;">CUBA MODS 🔵</div>
-                <div class="pricing-grid">
-                    <div class="glass-card t-sky">
-                        <h2>3 DÍAS</h2>
-                        <div class="price-tag">$70 MXN</div>
-                        <button class="btn-nexus btn-sky" onclick="handlePurchase('Cuba Mods 🔵','Hola, quiero adquirir cuba mods🔵 de 3 dias')">ADQUIRIR 💳</button>
-                    </div>
-                    <div class="glass-card t-sky">
-                        <h2>7 DÍAS</h2>
-                        <div class="price-tag">$160 MXN</div>
-                        <button class="btn-nexus btn-sky" onclick="handlePurchase('Cuba Mods 🔵','Hola, quiero adquirir cuba mods🔵 de 7 días')">ADQUIRIR 💳</button>
-                    </div>
-                    <div class="glass-card t-sky">
-                        <h2>30 DÍAS</h2>
-                        <div class="price-tag">$350 MXN</div>
-                        <button class="btn-nexus btn-sky" onclick="handlePurchase('Cuba Mods 🔵','Hola, quiero adquirir cuba mods🔵 de Mes')">ADQUIRIR 💳</button>
-                    </div>
+            <div class="section-tag" style="color:var(--cyan); margin-top:100px;">CUBA MODS 🔵</div>
+            <div class="grid">
+                <div class="card c-cyan">
+                    <h2>3 DÍAS</h2><div class="price">$70 MXN</div>
+                    <button class="buy-btn" onclick="openM('Cuba Mods 🔵 · 3 DÍAS','Hola, quiero adquirir cuba mods🔵 de 3 dias')">COMPRAR 💳</button>
+                </div>
+                <div class="card c-cyan">
+                    <h2>7 DÍAS</h2><div class="price">$160 MXN</div>
+                    <button class="buy-btn" onclick="openM('Cuba Mods 🔵 · 7 DÍAS','Hola, quiero adquirir cuba mods🔵 de 7 días')">COMPRAR 💳</button>
+                </div>
+                <div class="card c-cyan">
+                    <h2>30 DÍAS</h2><div class="price">$350 MXN</div>
+                    <button class="buy-btn" onclick="openM('Cuba Mods 🔵 · 30 DÍAS','Hola, quiero adquirir cuba mods🔵 de Mes')">COMPRAR 💳</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // 1. MOTOR DE PARTÍCULAS (HIGH PERFORMANCE)
+        // 1. PARTICLES ENGINE
         const canvas = document.getElementById('pCanvas');
         const ctx = canvas.getContext('2d');
-        let particles = [];
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
+        let parts = [];
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.onresize = resize; resize();
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 1.5;
-                this.vy = (Math.random() - 0.5) * 1.5;
-                this.size = Math.random() * 2;
-            }
-            update() {
-                this.x += this.vx; this.y += this.vy;
-                if(this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                if(this.y < 0 || this.y > canvas.height) this.vy *= -1;
-            }
-            draw() {
-                ctx.fillStyle = '#bc13fe';
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill();
+        class P {
+            constructor() { this.x=Math.random()*canvas.width; this.y=Math.random()*canvas.height; this.v=Math.random()*1; }
+            draw() { 
+                ctx.fillStyle="#bc13fe"; ctx.beginPath(); ctx.arc(this.x,this.y,1,0,Math.PI*2); ctx.fill();
+                this.y-=this.v; if(this.y<0) this.y=canvas.height;
             }
         }
+        for(let i=0;i<100;i++) parts.push(new P());
+        function anim() { ctx.clearRect(0,0,canvas.width,canvas.height); parts.forEach(p=>p.draw()); requestAnimationFrame(anim); }
+        anim();
 
-        for(let i=0; i<100; i++) particles.push(new Particle());
-
-        function loop() {
-            ctx.clearRect(0,0,canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(loop);
-        }
-        loop();
-
-        // 2. EFECTOS ATMOSFÉRICOS
+        // 2. LIGHTNING EFFECT
         setInterval(() => {
-            if(Math.random() > 0.8) {
-                const l = document.getElementById('lightning');
-                l.classList.add('flash-effect');
-                setTimeout(() => l.classList.remove('flash-effect'), 700);
+            if(Math.random() > 0.7) {
+                document.getElementById('lightning').classList.add('flash');
+                setTimeout(()=> document.getElementById('lightning').classList.remove('flash'), 700);
             }
-        }, 4000);
+        }, 3500);
 
-        // 3. LÓGICA DE TIENDA
-        let activeMsg = "";
-        const TIKTOK_URL = "https://www.tiktok.com/@nexus1841";
+        // 3. STORE LOGIC
+        let msgToCopy = "";
+        const TIKTOK = "https://www.tiktok.com/@nexus1841";
 
-        function handlePurchase(plan, msg) {
-            document.getElementById('selected-plan').innerText = plan;
-            activeMsg = msg;
-            document.getElementById('purchase-modal').classList.add('open');
+        function openM(plan, msg) {
+            document.getElementById('mPlan').innerText = plan;
+            msgToCopy = msg;
+            document.getElementById('modal').classList.add('on');
         }
+        function closeM() { document.getElementById('modal').classList.remove('on'); }
 
-        function closeModal() { document.getElementById('purchase-modal').classList.remove('open'); }
-
-        function confirmRedirect() {
+        function goToTikTok() {
             const el = document.createElement('textarea');
-            el.value = activeMsg;
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
+            el.value = msgToCopy; document.body.appendChild(el);
+            el.select(); document.execCommand('copy'); document.body.removeChild(el);
 
-            const toast = document.getElementById('toast');
-            toast.classList.add('active');
-            
+            document.getElementById('toast').classList.add('on');
             setTimeout(() => {
-                window.open(TIKTOK_URL, "_blank");
-                toast.classList.remove('active');
-                closeModal();
+                window.open(TIKTOK, "_blank");
+                document.getElementById('toast').classList.remove('on');
+                closeM();
             }, 1200);
         }
-
-        // CONTROL DE CARGA
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.body.classList.remove('loading');
-                document.body.classList.add('loaded');
-                setTimeout(() => document.getElementById('intro').style.display = 'none', 1000);
-            }, 8500);
-        });
     </script>
 </body>
 </html>
